@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { signupUser } from '../../redux/authSlice';
 import Input from '../../components/Common/Input';
+import './style.css';
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
@@ -22,10 +23,8 @@ const Signup = () => {
   const handleSubmit = (values, { setSubmitting }) => {
     dispatch(signupUser(values));
     setSubmitting(false);
-    console.log("err",error)
   };
 
-  // Redirect to email verification if signup is successful
   useEffect(() => {
     if (isSignupSuccessful) {
       navigate('/email-varification');
@@ -33,15 +32,15 @@ const Signup = () => {
   }, [isSignupSuccessful, navigate]);
 
   return (
-    <div className="max-w-md mx-auto mt-10">
-      <h1 className="text-2xl font-bold mb-5">Signup</h1>
+    <div className="flex justify-center items-center min-h-screen bannerImg p-4 sm:p-8">
       <Formik
         initialValues={{ name: '', username: '', email: '', password: '', role: '0' }}
         validationSchema={SignupSchema}
         onSubmit={handleSubmit}
       >
         {(formik) => (
-          <Form>
+          <Form className="w-full max-w-lg p-8 bg-white shadow-lg rounded-lg formBackgorund ">
+            <h1 className="text-2xl font-bold mb-5 text-center">Sign Up</h1>
             <Input
               label="Name"
               name="name"
@@ -68,7 +67,6 @@ const Signup = () => {
               placeholder="Enter your password"
               formik={formik}
             />
-            {/* Role Dropdown */}
             <div className="mb-4">
               <label className="font-medium mb-1 block">Role</label>
               <select
@@ -92,10 +90,17 @@ const Signup = () => {
             <button
               type="submit"
               disabled={formik.isSubmitting || loading}
-              className="bg-blue-500 text-white py-2 px-4 rounded"
+              className="w-full text-white bgButton py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
             >
               {loading ? 'Submitting...' : 'Sign Up'}
             </button>
+            {error && <div className="text-red-600 text-sm mt-2">{error}</div>}
+            <div className="mt-4 text-center">
+              Already have an account?
+              <button onClick={() => navigate('/login')} className="ml-2 text-blue-600 underline hover:text-blue-800">
+                Login
+              </button>
+            </div>
           </Form>
         )}
       </Formik>

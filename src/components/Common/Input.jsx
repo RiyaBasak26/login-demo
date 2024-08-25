@@ -3,7 +3,7 @@ import React from 'react'
 const Input = ({label,name,type,placeholder,formik}) => {
   return (
     <div className='mb-4'>
-        <label className='font-medium mb-1'>{label}</label>
+        <label className='font-medium mb-4'>{label}</label>
         <input
         type={type}
         name={name}
@@ -11,7 +11,7 @@ const Input = ({label,name,type,placeholder,formik}) => {
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         value={formik.values[name]}
-        className="w-full p-2 border rounded-md"
+        className="w-full p-2 border rounded-md mt-2 text-blue-700"
 
         />
         {

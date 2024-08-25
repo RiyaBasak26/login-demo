@@ -1,0 +1,11 @@
+.bannerImg{
+    background-image: url('../../assert/banner2.jpeg') !important ;
+    background-size: cover;
+}
+.formBackgorund{
+    background-color: rgba(77, 95, 124, 0.405);
+    color: #23c9ea;
+}
+.bgButton{
+    background-color: #3fa4b1;
+}
