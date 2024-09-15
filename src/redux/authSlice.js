@@ -111,6 +111,7 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.user = null;
+      state.token = null; 
       state.isSignupSuccessful = false;
       state.isEmailVerified = false; 
       localStorage.removeItem('token');
@@ -128,6 +129,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Signup
       .addCase(signupUser.pending, (state) => {
         state.loading = true;
         state.isSignupSuccessful = false;
@@ -142,6 +144,8 @@ const authSlice = createSlice({
         state.error = action.payload;
         state.isSignupSuccessful = false;
       })
+
+      // Email Verification
       .addCase(verifyEmail.pending, (state) => {
         state.loading = true;
         state.isEmailVerified = false;
@@ -154,6 +158,38 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         state.isEmailVerified = false;
+      })
+
+      // Login
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.token = action.payload.token;
+        state.user = action.payload.data; 
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || 'Login failed';
+      })
+
+      // Profile Update
+      .addCase(updateUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = { ...state.user, ...action.payload.data };
+        toast.success('Profile updated successfully!', {
+          position: 'top-right',
+          autoClose: 3000,
+        });
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || 'Profile update failed';
       });
   },
 });

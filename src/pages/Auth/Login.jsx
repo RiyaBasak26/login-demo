@@ -10,7 +10,7 @@ import './style.css';
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user, loading, error, isAuthenticated } = useSelector((state) => state.auth);
+  const { loading, error, token } = useSelector((state) => state.auth);
 
   const validation = Yup.object({
     email: Yup.string().email('Invalid email format').required('Email is required'),
@@ -29,12 +29,12 @@ const Login = () => {
         setSubmitting(false); 
       });
   };
-
   useEffect(() => {
-    if (isAuthenticated) {
+    if (token) {
       navigate('/'); 
     }
-  }, [isAuthenticated, navigate]);
+  }, [token]);
+
 
   return (
     <div className='flex justify-center items-center min-h-screen bannerImg p-4'>
